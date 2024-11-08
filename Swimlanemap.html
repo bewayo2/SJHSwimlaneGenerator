@@ -1,0 +1,307 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Enhanced Swimlane Process Map App</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f8f8f8;
+            padding: 20px;
+        }
+
+        .input-container {
+            margin-bottom: 20px;
+        }
+
+        .drag-container {
+            display: flex;
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .activities, .actors {
+            border: 1px solid #aaa;
+            padding: 10px;
+            width: 200px;
+            min-height: 200px;
+            background-color: #fff;
+        }
+
+        .actors {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .item {
+            margin: 10px;
+            padding: 10px;
+            border: 1px solid #333;
+            border-radius: 5px;
+            background-color: #e1f5e1;
+            cursor: pointer;
+        }
+
+        .assignment-box {
+            border: 1px dashed #aaa;
+            min-height: 50px;
+            margin-top: 10px;
+            padding: 5px;
+            background-color: #f9f9f9;
+        }
+
+        .swimlane-container {
+            display: grid;
+            grid-template-columns: 200px repeat(10, 1fr); /* Fixed label column and 10 equal columns for activities */
+            gap: 10px;
+            width: 100%;
+            margin-top: 20px;
+        }
+
+        .swimlane {
+            grid-column: 1 / span 11;
+            display: grid;
+            grid-template-columns: 200px repeat(10, 1fr);
+            gap: 10px;
+            width: 100%;
+            padding: 10px 0;
+            align-items: center;
+        }
+
+        .swimlane-label {
+            font-weight: bold;
+            border: 1px solid #aaa;
+            padding: 10px;
+            text-align: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100px;
+            border-right: 2px solid #aaa; /* Grid line for separating swimlane labels and activities */
+            box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.2); /* Added shadow to label box */
+        }
+
+        .activity {
+            position: relative;
+            background-color: white;
+            border: 1px solid black;
+            border-radius: 5px;
+            padding: 10px;
+            text-align: center;
+            word-wrap: break-word;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100px;
+            margin: 5px; /* Add consistent margin around activities for spacing */
+        }
+
+        .step-number {
+            font-weight: bold;
+            border: 1px solid black;
+            border-radius: 50%;
+            padding: 5px;
+            margin-right: 5px;
+            display: inline-block;
+            width: 25px;
+            height: 25px;
+            line-height: 25px;
+            text-align: center;
+        }
+        /* Professional color scheme for swimlanes */
+        .swimlane-1 {
+            background-color: #dbe9f6; /* Light Blue */
+        }
+
+            .swimlane-1 .step-number {
+                background-color: #dbe9f6; /* Light Blue for step number */
+            }
+
+        .swimlane-2 {
+            background-color: #f1f1f1; /* Light Gray */
+        }
+
+            .swimlane-2 .step-number {
+                background-color: #f1f1f1; /* Light Gray for step number */
+            }
+
+        .swimlane-3 {
+            background-color: #e1f5e1; /* Pale Green */
+        }
+
+            .swimlane-3 .step-number {
+                background-color: #e1f5e1; /* Pale Green for step number */
+            }
+
+        .swimlane-4 {
+            background-color: #f9f3e4; /* Soft Beige */
+        }
+
+            .swimlane-4 .step-number {
+                background-color: #f9f3e4; /* Soft Beige for step number */
+            }
+
+        .swimlane-5 {
+            background-color: #e9e6f9; /* Light Lavender */
+        }
+
+            .swimlane-5 .step-number {
+                background-color: #e9e6f9; /* Light Lavender for step number */
+            }
+
+        .footer {
+            margin-top: 20px;
+            text-align: center;
+            font-size: 14px;
+            color: #555;
+        }
+    </style>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+</head>
+<body>
+    <div class="instructions">
+        <h2>Instructions for Using the Enhanced Swimlane Process Map App</h2>
+        <ol>
+            <li>
+                <strong>Enter Data:</strong>
+                <ul>
+                    <li>Copy and paste the process table from the operations manual into this custom GPT: <a href="https://chatgpt.com/g/g-fQStlknmA-sjh-step-actor-pair-list-creator" target="_blank">Role:Activity Pair List Creator</a>.</li>
+                    <li>Then come back to this page and paste the output from the GPT into the input space below.</li>
+                    <li>Enter each pair in the format <code>Role:Activity</code>, separated by commas.</li>
+                    <li>After entering the information, click the <strong>Submit</strong> button.</li>
+                </ul>
+            </li>
+            <li>
+                <strong>Generate Swimlane Diagram:</strong>
+                <ul>
+                    <li>After clicking <strong>Submit</strong>, the swimlane diagram will be automatically generated based on your inputs, showing each activity under the corresponding role.</li>
+                </ul>
+            </li>
+            <li>
+                <strong>Adjust Page Zoom:</strong>
+                <ul>
+                    <li>Remember to adjust your page zoom to get the right view before downloading the PNG for best results.</li>
+                </ul>
+            </li>
+            <li>
+                <strong>Download as PNG:</strong>
+                <ul>
+                    <li>Once the diagram is generated, you can click on <strong>Download as PNG</strong> to save an image of the swimlane diagram for your records.</li>
+                </ul>
+            </li>
+        </ol>
+    </div>
+
+    <div class="input-container">
+        <label for="roleActivityPairs">Enter Role:Activity Pairs (comma-separated):</label><br>
+        <input type="text" id="roleActivityPairs" style="width: 100%;" placeholder="e.g. Role1:Activity1, Role2:Activity2"><br><br>
+
+        <button id="submitButton">Submit</button>
+    </div>
+
+    <button class="download-button" style="display:none;" id="downloadButton">Download as PNG</button>
+
+    <div id="swimlaneDiagram" class="swimlane-container" style="display:none;"></div>
+
+    <div class="footer">
+        <p>Developed by Temitayo Bewaji. Copyright Bewaji Healthcare Solutions 2024. <a href="https://www.bewajihealth.com">www.bewajihealth.com</a></p>
+    </div>
+
+    <script>
+        let activities = [];
+        let actors = [];
+        let activityAssignments = {}; // To store activity-to-actor assignments
+
+        // Array of colors to be used for swimlanes
+        const swimlaneColors = ["#dbe9f6", "#f1f1f1", "#e1f5e1", "#f9f3e4", "#e9e6f9"];
+
+        document.getElementById('submitButton').addEventListener('click', initializeDiagram);
+        document.getElementById('downloadButton').addEventListener('click', downloadSwimlaneAsPNG);
+
+        function initializeDiagram() {
+            // Reset previous assignments and diagram
+            activityAssignments = {};
+            document.getElementById('swimlaneDiagram').style.display = 'none';
+            document.getElementById('swimlaneDiagram').innerHTML = '';
+
+            const roleActivityInput = document.getElementById('roleActivityPairs').value.trim();
+
+            if (!roleActivityInput) {
+                alert('Please enter role-activity pairs.');
+                return;
+            }
+
+            const pairs = roleActivityInput.split(',').map(pair => pair.trim()).filter(pair => pair !== "");
+
+            pairs.forEach(pair => {
+                const [role, activity] = pair.split(':').map(item => item.trim());
+                if (role && activity) {
+                    if (!activityAssignments[role]) {
+                        activityAssignments[role] = [];
+                    }
+                    activityAssignments[role].push(activity);
+                }
+            });
+
+            generateSwimlaneDiagram();
+        }
+
+        function generateSwimlaneDiagram() {
+            const swimlaneDiagram = document.getElementById('swimlaneDiagram');
+            swimlaneDiagram.innerHTML = '';
+            swimlaneDiagram.style.display = 'grid';
+
+            let globalColumn = 2;
+            const assignedRoles = Object.keys(activityAssignments);
+            const assignedActivityMap = new Map();
+
+            assignedRoles.forEach(role => {
+                activityAssignments[role].forEach(activity => {
+                    if (!assignedActivityMap.has(activity)) {
+                        assignedActivityMap.set(activity, globalColumn);
+                        globalColumn++;
+                    }
+                });
+            });
+
+            assignedRoles.forEach((role, index) => {
+                const swimlaneDiv = document.createElement('div');
+                swimlaneDiv.className = `swimlane swimlane-${(index % swimlaneColors.length) + 1}`;
+                const swimlaneLabelDiv = document.createElement('div');
+                swimlaneLabelDiv.className = 'swimlane-label';
+                swimlaneLabelDiv.textContent = role;
+                swimlaneDiv.appendChild(swimlaneLabelDiv);
+
+                activityAssignments[role].forEach(activity => {
+                    const activityDiv = document.createElement('div');
+                    activityDiv.className = 'activity';
+                    activityDiv.style.gridColumn = assignedActivityMap.get(activity);
+                    const stepNumberSpan = document.createElement('span');
+                    stepNumberSpan.className = 'step-number';
+                    stepNumberSpan.textContent = assignedActivityMap.get(activity) - 1;
+                    activityDiv.appendChild(stepNumberSpan);
+                    activityDiv.appendChild(document.createTextNode(` ${activity}`));
+                    swimlaneDiv.appendChild(activityDiv);
+                });
+
+                swimlaneDiagram.appendChild(swimlaneDiv);
+            });
+
+            document.getElementById('downloadButton').style.display = 'block';
+        }
+
+        function downloadSwimlaneAsPNG() {
+            const swimlaneDiagram = document.getElementById('swimlaneDiagram');
+            html2canvas(swimlaneDiagram).then(canvas => {
+                const link = document.createElement('a');
+                link.download = 'swimlane-diagram.png';
+                link.href = canvas.toDataURL();
+                link.click();
+            });
+        }
+    </script>
+</body>
+</html>
